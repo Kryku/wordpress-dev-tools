@@ -1,0 +1,53 @@
+.dev-tools-catalog {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 20px 0;
+}
+.tool-card {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #efefef;
+    border-radius: 5px;
+    width: 300px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+}
+.tool-card h2 {
+    margin-top: 0;
+}
+.tool-card p {
+    margin: 10px 0;
+}
+.tool-card-btn{
+    display: block;
+    padding: 10px 3px 10px 3px;
+    width: 100%;
+    border-radius: 5px;
+    text-align: center;
+    background-color: #ffffff;
+    border: 1px solid #cfcfcf;
+    color: #141414;
+    text-decoration: none;
+    text-transform: uppercase;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    
+}
+.tool-card-btn:hover{
+    background-color: #141414;
+    border: 1px solid #141414;
+    color: #ffffff;
+}
+.tool-card-header{
+    display: flex;
+    align-items: center;
+}
+.tool-card-header h2{
+    margin-bottom: 0px;
+    color: #141414;
+}
+.tool-card-ico svg{
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    fill: #141414;
+}

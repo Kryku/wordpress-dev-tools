@@ -1,0 +1,52 @@
+.db-tools-table-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+.db-tools-table-list li{
+    padding: 10px;
+    margin: 5px;
+    color: #141414;
+    border: 1px solid #efefef;
+    border-radius: 5px;
+    background-color: #ffffff;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.db-tools-table-list li:hover{
+    background-color: #141414;
+    color: #ffffff;
+}
+textarea[name="sql_query"] {
+    width: 100%;
+    max-width: 100%;
+    margin: 10px 0;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border: 1px solid #efefef;
+    padding: 10px;
+    background: #141414;
+    color: #ffffff;
+}
+.db-tools-table-btn{
+    display: block;
+    padding: 10px 5px 10px 5px;
+    width: 100%;
+    border-radius: 5px;
+    text-align: center;
+    background-color: #ffffff;
+    border: 1px solid #cfcfcf;
+    color: #141414;
+    text-decoration: none;
+    text-transform: uppercase;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    
+}
+.db-tools-table-btn:hover{
+    background-color: #141414;
+    border: 1px solid #141414;
+    color: #ffffff;
+}
+.db-tools-table-result{
+    padding: 10px;
+    background-color: #141414;
+    border: 1px solid #141414;
+    color: #ffffff;
+}

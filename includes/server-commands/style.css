@@ -1,0 +1,30 @@
+.server-commands-request{
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.server-commands-request input[name="server_command"]{
+    background-color: #141414;
+    color: #ffffff;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    height: 50px;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+.server-commands-btn{
+    display: block;
+    padding: 10px 5px 10px 5px;
+    width: 100%;
+    border-radius: 5px;
+    text-align: center;
+    background-color: #ffffff;
+    border: 1px solid #cfcfcf;
+    color: #141414;
+    text-decoration: none;
+    text-transform: uppercase;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    
+}
+.server-commands-btn:hover{
+    background-color: #141414;
+    border: 1px solid #141414;
+    color: #ffffff;
+}
