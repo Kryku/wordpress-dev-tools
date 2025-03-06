@@ -10,6 +10,8 @@ define('DEV_TOOLS_DB_MANAGER', true);
 define('DEV_TOOLS_SERVER_COMMANDS', true);
 define('DEV_TOOLS_FILE_EDITOR', true);
 
+$sos_enabled = get_option('dev_tools_sos_enabled', false);
+
 if (DEV_TOOLS_DB_MANAGER) {
     require_once plugin_dir_path(__FILE__) . 'includes/db-manager/db-manager.php';
 }
@@ -18,6 +20,9 @@ if (DEV_TOOLS_SERVER_COMMANDS) {
 }
 if (DEV_TOOLS_FILE_EDITOR) {
     require_once plugin_dir_path(__FILE__) . 'includes/file-editor/file-editor.php';
+}
+if ($sos_enabled) {
+    require_once plugin_dir_path(__FILE__) . 'includes/save-our-soul/save-our-soul.php';
 }
 
 function dev_tools_menu() {
@@ -63,6 +68,15 @@ function dev_tools_menu() {
             'dev_tools_file_editor_page'
         );
     }
+
+    add_submenu_page(
+        'dev-tools',
+        'SOS Settings',
+        'SOS Settings',
+        'manage_options',
+        'dev-tools-sos-settings',
+        'dev_tools_sos_settings_page'
+    );
 }
 add_action('admin_menu', 'dev_tools_menu');
 
@@ -84,8 +98,39 @@ function dev_tools_main_page() {
             if (DEV_TOOLS_FILE_EDITOR) {
                 dev_tools_file_editor_card();
             }
+            if (get_option('dev_tools_sos_enabled', false)) {
+                dev_tools_sos_card();
+            }
             ?>
         </div>
+    </div>
+    <?php
+}
+
+function dev_tools_sos_settings_page() {
+    if (!current_user_can('manage_options')) {
+        return;
+    }
+
+    if (isset($_POST['sos_submit']) && check_admin_referer('sos_settings_action')) {
+        $enabled = isset($_POST['sos_enabled']) ? 1 : 0;
+        update_option('dev_tools_sos_enabled', $enabled);
+        echo '<div class="updated"><p>Settings saved!</p></div>';
+    }
+
+    $sos_enabled = get_option('dev_tools_sos_enabled', false);
+    ?>
+    <div class="wrap" style="max-width: 700px; background-color: #ffffff; margin: 0 auto; border-radius: 5px; padding: 20px; box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px; margin-top: 30px;">
+        <h1 style="margin-bottom: 10px">SOS Settings</h1>
+        <form method="post">
+            <?php wp_nonce_field('sos_settings_action'); ?>
+            <label>
+                <input type="checkbox" name="sos_enabled" <?php checked($sos_enabled, 1); ?>>
+                Enable Save Our Souls (Emergency File Editor)
+            </label>
+            <p><em>Note: When enabled, you can also access it directly at <br><br><code><?php echo plugin_dir_url(__FILE__) . 'includes/save-our-soul/'; ?></code></em></p>
+            <input type="submit" name="sos_submit" class="tool-card-btn" value="Save Changes">
+        </form>
     </div>
     <?php
 }

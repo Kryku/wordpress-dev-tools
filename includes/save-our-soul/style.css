@@ -1,0 +1,114 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #141414;
+}
+h1{
+    color: #ffffff;
+    text-align: center;
+}
+svg{
+    fill: #ffffff;
+    width: 50px;
+    height: 50px;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.file-editor {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+.file-editor-container {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+.file-tree::-webkit-scrollbar {
+    width: 10px;
+}
+.file-tree::-webkit-scrollbar-track {
+    background: #efefef;
+}
+::-webkit-scrollbar-thumb {
+    background: #141414;
+}
+.file-tree {
+    width: 30%;
+    max-height: 600px;
+    overflow: auto;
+    border: 1px solid #efefef;
+    padding: 10px;
+    background-color: #ffffff;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border-radius: 5px;
+}
+.file-tree ul {
+    list-style: none;
+    padding-left: 20px;
+}
+.file-tree ul a {
+    list-style: none;
+    padding-left: 20px;
+    color: #141414;
+    text-decoration: none;
+}
+.file-tree .folder {
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+}
+.file-tree .folder::before {
+    content: '▶';
+    display: inline-block;
+    width: 10px;
+    margin-right: 5px;
+    font-size: 10px;
+}
+.file-tree .folder.collapsed::before {
+    content: '▼';
+}
+.file-tree .folder ul {
+    display: none;
+}
+.file-tree .folder.collapsed ul {
+    display: block;
+}
+.file-content {
+    width: 70%;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    padding: 10px;
+    border-radius: 5px;
+}
+textarea {
+    width: 100%;
+    height: 500px;
+    border: 1px solid #efefef;
+    padding: 10px;
+    font-family: monospace;
+}
+input[type="submit"] {
+    display: block;
+    background-color: #ffffff;
+    color: #141414;
+    border: 1px solid #141414;
+    border-radius: 5px;
+    padding: 10px 15px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    cursor: pointer;
+    float: right;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.success {
+    color: green;
+    margin: 10px 0;
+    text-align: center;
+}
+.error {
+    color: red;
+    margin: 10px 0;
+    text-align: center;
+}
