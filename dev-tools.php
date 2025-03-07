@@ -2,7 +2,7 @@
 /*
 Plugin Name: Dev Tools
 Description: Developer toolkit
-Version: 1.0
+Version: 1.5
 Author: V.Krykun
 */
 
@@ -10,6 +10,8 @@ define('DEV_TOOLS_DB_MANAGER', true);
 define('DEV_TOOLS_SERVER_COMMANDS', true);
 define('DEV_TOOLS_FILE_EDITOR', true);
 define('DEV_TOOLS_SNIPPET_RUNNER', true);
+define('DEV_TOOLS_CRON_SCHEDULER', true);
+define('DEV_TOOLS_PERFORMANCE_PROFILER', true);
 
 $sos_enabled = get_option('dev_tools_sos_enabled', false);
 
@@ -24,6 +26,12 @@ if (DEV_TOOLS_FILE_EDITOR) {
 }
 if (DEV_TOOLS_SNIPPET_RUNNER) {
     require_once plugin_dir_path(__FILE__) . 'includes/code-snippet/code-snippet.php';
+}
+if (DEV_TOOLS_CRON_SCHEDULER) {
+    require_once plugin_dir_path(__FILE__) . 'includes/cron-scheduler/cron-scheduler.php';
+}
+if (DEV_TOOLS_PERFORMANCE_PROFILER) {
+    require_once plugin_dir_path(__FILE__) . 'includes/performance-profiler/performance-profiler.php';
 }
 if ($sos_enabled) {
     require_once plugin_dir_path(__FILE__) . 'includes/save-our-soul/save-our-soul.php';
@@ -83,7 +91,29 @@ function dev_tools_menu() {
             'dev_tools_snippet_page'
         );
     }
-
+    
+    if (DEV_TOOLS_CRON_SCHEDULER) {
+        add_submenu_page(
+            'dev-tools',
+            'Cron Scheduler',
+            'Cron Scheduler',
+            'manage_options',
+            'dev-tools-cron',
+            'dev_tools_cron_page'
+        );
+    }
+    
+    if (DEV_TOOLS_PERFORMANCE_PROFILER) {
+        add_submenu_page(
+            'dev-tools',
+            'Performance Profiler',
+            'Performance Profiler',
+            'manage_options',
+            'dev-tools-performance',
+            'dev_tools_performance_page'
+        );
+    }
+    
     add_submenu_page(
         'dev-tools',
         'SOS Settings',
@@ -115,6 +145,12 @@ function dev_tools_main_page() {
             }
             if (DEV_TOOLS_SNIPPET_RUNNER) {
                 dev_tools_snippet_card();
+            }
+            if (DEV_TOOLS_CRON_SCHEDULER) {
+                dev_tools_cron_card();
+            }
+            if (DEV_TOOLS_PERFORMANCE_PROFILER) {
+                dev_tools_performance_card();
             }
             if (get_option('dev_tools_sos_enabled', false)) {
                 dev_tools_sos_card();
