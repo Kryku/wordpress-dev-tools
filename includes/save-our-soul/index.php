@@ -60,8 +60,8 @@ function build_sos_direct_file_tree($dir) {
 <head>
     <title>Save Our Souls - File Editor</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="assets/codemirror.min.css">
-    <script src="assets/codemirror.min.js"></script>
+    <link rel="stylesheet" href="<?php echo plugin_dir_url(__FILE__) . '../../assets/codemirror.min.css'; ?>">
+    <script src="<?php echo plugin_dir_url(__FILE__) . '../../assets/codemirror.min.js'; ?>"></script>
 </head>
 <body>
     <div class="container">

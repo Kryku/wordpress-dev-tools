@@ -140,11 +140,11 @@ function build_file_tree($dir) {
     return $output;
 }
 
-add_action('admin_enqueue_scripts', function() {
+add_action('admin_enqueue_scripts', function($hook) {
     if (isset($_GET['page']) && $_GET['page'] === 'dev-tools-file-editor') {
         wp_enqueue_script('jquery');
-        wp_enqueue_script('codemirror', plugin_dir_url(__FILE__) . 'assets/codemirror.min.js', [], '6.65.7', true);
-        wp_enqueue_style('codemirror-css', plugin_dir_url(__FILE__) . 'assets/codemirror.min.css');
+        wp_enqueue_script('codemirror', plugin_dir_url(__FILE__) . '../../assets/codemirror.min.js', [], '6.65.7', true);
+        wp_enqueue_style('codemirror-css', plugin_dir_url(__FILE__) . '../../assets/codemirror.min.css');
         wp_enqueue_style('file-editor-style', plugin_dir_url(__FILE__) . 'style.css');
     }
 });

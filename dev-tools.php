@@ -9,6 +9,7 @@ Author: V.Krykun
 define('DEV_TOOLS_DB_MANAGER', true);
 define('DEV_TOOLS_SERVER_COMMANDS', true);
 define('DEV_TOOLS_FILE_EDITOR', true);
+define('DEV_TOOLS_SNIPPET_RUNNER', true);
 
 $sos_enabled = get_option('dev_tools_sos_enabled', false);
 
@@ -20,6 +21,9 @@ if (DEV_TOOLS_SERVER_COMMANDS) {
 }
 if (DEV_TOOLS_FILE_EDITOR) {
     require_once plugin_dir_path(__FILE__) . 'includes/file-editor/file-editor.php';
+}
+if (DEV_TOOLS_SNIPPET_RUNNER) {
+    require_once plugin_dir_path(__FILE__) . 'includes/code-snippet/code-snippet.php';
 }
 if ($sos_enabled) {
     require_once plugin_dir_path(__FILE__) . 'includes/save-our-soul/save-our-soul.php';
@@ -69,6 +73,17 @@ function dev_tools_menu() {
         );
     }
 
+    if (DEV_TOOLS_SNIPPET_RUNNER) {
+        add_submenu_page(
+            'dev-tools',
+            'Code Snippet Runner',
+            'Code Snippet Runner',
+            'manage_options',
+            'dev-tools-snippet',
+            'dev_tools_snippet_page'
+        );
+    }
+
     add_submenu_page(
         'dev-tools',
         'SOS Settings',
@@ -97,6 +112,9 @@ function dev_tools_main_page() {
             }
             if (DEV_TOOLS_FILE_EDITOR) {
                 dev_tools_file_editor_card();
+            }
+            if (DEV_TOOLS_SNIPPET_RUNNER) {
+                dev_tools_snippet_card();
             }
             if (get_option('dev_tools_sos_enabled', false)) {
                 dev_tools_sos_card();
