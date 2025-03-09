@@ -12,6 +12,7 @@ define('DEV_TOOLS_FILE_EDITOR', true);
 define('DEV_TOOLS_SNIPPET_RUNNER', true);
 define('DEV_TOOLS_CRON_SCHEDULER', true);
 define('DEV_TOOLS_PERFORMANCE_PROFILER', true);
+define('DEV_TOOLS_EMAIL_TESTER', true);
 
 $sos_enabled = get_option('dev_tools_sos_enabled', false);
 
@@ -32,6 +33,9 @@ if (DEV_TOOLS_CRON_SCHEDULER) {
 }
 if (DEV_TOOLS_PERFORMANCE_PROFILER) {
     require_once plugin_dir_path(__FILE__) . 'includes/performance-profiler/performance-profiler.php';
+}
+if (DEV_TOOLS_EMAIL_TESTER) {
+    require_once plugin_dir_path(__FILE__) . 'includes/email-tester/email-tester.php';
 }
 if ($sos_enabled) {
     require_once plugin_dir_path(__FILE__) . 'includes/save-our-soul/save-our-soul.php';
@@ -114,6 +118,17 @@ function dev_tools_menu() {
         );
     }
     
+    if (DEV_TOOLS_EMAIL_TESTER) {
+        add_submenu_page(
+            'dev-tools',
+            'Email Tester',
+            'Email Tester',
+            'manage_options',
+            'dev-tools-email',
+            'dev_tools_email_page'
+        );
+    }
+    
     add_submenu_page(
         'dev-tools',
         'SOS Settings',
@@ -151,6 +166,9 @@ function dev_tools_main_page() {
             }
             if (DEV_TOOLS_PERFORMANCE_PROFILER) {
                 dev_tools_performance_card();
+            }
+            if (DEV_TOOLS_EMAIL_TESTER) {
+                dev_tools_email_card();
             }
             if (get_option('dev_tools_sos_enabled', false)) {
                 dev_tools_sos_card();

@@ -1,6 +1,6 @@
 # Dev Tools
 ## Description
-A ~~simple~~ WordPress plugin I whipped up to make my developer life less of a headache. It’s packed with handy tools—Database Manager, Server Commands, File Editor, Code Snippet Runner, Cron Scheduler, Performance Profiler, and an emergency SOS mode—all in one lightweight package. Built for database tweaks, server poking, file editing, code testing, cron wrangling, and performance checks, right from the WordPress admin. Perfect when you’re stuck without server or hosting access. Free, customizable, and won’t bog down your site. Skip the bloated paid stuff!
+A ~~simple~~ WordPress plugin I whipped up to make my developer life less of a headache. It’s packed with handy tools—Database Manager, Server Commands, File Editor, Code Snippet Runner, Cron Scheduler, Performance Profiler, Email Tester, and an emergency SOS mode—all in one lightweight package. Built for database tweaks, server poking, file editing, code testing, cron wrangling, performance checks, and email debugging, right from the WordPress admin. Perfect when you’re stuck without server or hosting access. Free, customizable, and won’t bog down your site. Skip the bloated paid stuff!
 
 
 ![Dev Tools Main](https://raw.githubusercontent.com/Kryku/wordpress-dev-tools/refs/heads/main/screenshots/dev-tools.jpg)
@@ -12,6 +12,7 @@ A ~~simple~~ WordPress plugin I whipped up to make my developer life less of a h
 * **Code Snippet Runner**: Test PHP snippets, functions, and shortcodes without touching your site’s files.
 * **Cron Scheduler**: View, run, or tweak WordPress cron jobs. Fix stuck schedules or test hooks on the fly.
 * **Performance Profiler**: Measure page load time, memory usage, and SQL queries. Pinpoint performance bottlenecks with ease.
+* **Email Tester**: Send test emails via `wp_mail` or POP3 (from "Post via Email" settings). Debug delivery issues and keep logs.
 * **Save Our Souls (SOS)**: Emergency file editor for when everything’s on fire and you’ve got no server access.
 * Enable/disable tools as you need them.
 * Clean, simple UI with zero fluff.
@@ -53,6 +54,12 @@ Find **Dev Tools** in the WordPress admin menu. It’s your hub.
   - Shows page load time, query count, and memory usage for the current page.
   - Lists top 10 slowest SQL queries (if `SAVEQUERIES` is on).
   - ![Performance Profiler](https://raw.githubusercontent.com/Kryku/wordpress-dev-tools/refs/heads/main/screenshots/dev-tools-performance-profiler.jpg)
+- **Email Tester**:
+  - Send test emails via `wp_mail` or POP3 (if "Post via Email" is set up in Settings > Writing).
+  - Choose recipient, subject, and format (plain text or HTML).
+  - Logs all attempts with status, method, and errors—clear logs or resend selected ones.
+  - Debug SMTP or POP3 issues without extra plugins.
+  - ![Email Tester](https://raw.githubusercontent.com/Kryku/wordpress-dev-tools/refs/heads/main/screenshots/dev-tools-email-tester.jpg)
 - **Save Our Souls (SOS)**:
   - Emergency file editor accessible via a direct URL (e.g., `/wp-content/plugins/dev-tools/includes/save-our-soul/`).
   - Enable it in settings, then use it when the site’s down and your client won’t give you FTP or hosting access.
@@ -71,6 +78,7 @@ Find **Dev Tools** in the WordPress admin menu. It’s your hub.
    - **Code Snippet Runner**: Test a function or shortcode like `[my_shortcode]`.
    - **Cron Scheduler**: Check cron jobs, hit "Run Now," or schedule a new one like `my_custom_hook`.
    - **Performance Profiler**: See how fast (or slow) your page loads, spot heavy queries.
+   - **Email Tester**: Send a test email, check logs, resend failures, or clear the slate.
    - **SOS**: Enable it in settings first, then hit the direct URL when disaster strikes—no admin login needed, just basic auth creds (`admin`/`ohf*k` by default, change ‘em!).
 
 ## Example Scenarios

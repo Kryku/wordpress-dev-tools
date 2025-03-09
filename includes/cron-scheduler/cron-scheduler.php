@@ -37,8 +37,8 @@ function dev_tools_cron_page() {
         <h1>Cron Scheduler</h1>
         <p>View, run, or manage WordPress cron jobs.</p>
         <?php if ($message) echo $message; ?>
-        <div style="display: flex">
-        <div class="tool-card" style="width: 20%; max-width: 20%">
+        <div style="display: flex; gap: 20px;">
+        <div class="tool-card" style="width: 20%; max-width: 20%; max-height: 300px">
             <div class="tool-card-header">
                 <div class="tool-card-ico"></div>
                 <h2>Add New Cron Job</h2>
