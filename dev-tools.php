@@ -2,7 +2,7 @@
 /*
 Plugin Name: Dev Tools
 Description: Developer toolkit
-Version: 1.7
+Version: 1.9
 Author: <a href="https://github.com/Kryku">Vladyslav Krykun</a>
 */
 
@@ -15,6 +15,7 @@ define('DEV_TOOLS_PERFORMANCE_PROFILER', true);
 define('DEV_TOOLS_EMAIL_TESTER', true);
 define('DEV_TOOLS_REST_API_TESTER', true);
 define('DEV_TOOLS_PLUGIN_ROLLBACK', true);
+define('DEV_TOOLS_LOG_VIEWER', true);
 
 $sos_enabled = get_option('dev_tools_sos_enabled', false);
 
@@ -44,6 +45,9 @@ if (DEV_TOOLS_REST_API_TESTER) {
 }
 if (DEV_TOOLS_PLUGIN_ROLLBACK) {
     require_once plugin_dir_path(__FILE__) . 'includes/plugin-rollback/plugin-rollback.php';
+}
+if (DEV_TOOLS_LOG_VIEWER) {
+    require_once plugin_dir_path(__FILE__) . 'includes/log-viewer/log-viewer.php';
 }
 if ($sos_enabled) {
     require_once plugin_dir_path(__FILE__) . 'includes/save-our-soul/save-our-soul.php';
@@ -159,6 +163,17 @@ function dev_tools_menu() {
         );
     }
     
+    if (DEV_TOOLS_LOG_VIEWER) {
+        add_submenu_page(
+            'dev-tools',
+            'Log Viewer',
+            'Log Viewer',
+            'manage_options',
+            'dev-tools-logs',
+            'dev_tools_log_viewer_page'
+        );
+    }
+    
     add_submenu_page(
         'dev-tools',
         'SOS Settings',
@@ -205,6 +220,9 @@ function dev_tools_main_page() {
             }
             if (DEV_TOOLS_PLUGIN_ROLLBACK) {
                 dev_tools_plugin_rollback_card();
+            }
+            if (DEV_TOOLS_LOG_VIEWER) {
+                dev_tools_log_viewer_card();
             }
             if (get_option('dev_tools_sos_enabled', false)) {
                 dev_tools_sos_card();

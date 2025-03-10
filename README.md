@@ -15,6 +15,7 @@ A ~~simple~~ WordPress plugin I whipped up to make my developer life less of a h
 * **Email Tester**: Send test emails via `wp_mail` or POP3 (from "Post via Email" settings). Debug delivery issues and keep logs.
 * **REST API Tester**: Send requests to WordPress REST API (GET, POST, etc.) with headers and body. See responses and debug endpoints.
 * **Plugin Rollback**: Roll back plugin updates to previous versions when the latest one breaks your site. Pulls versions from WordPress.org.
+* **Log Viewer**: Peek at your debug.log, tweak WP_DEBUG settings, filter, search, wipe it clean, or download it—all without leaving the admin.
 * ~~**Save Our Souls (SOS)**~~ - under revision: Emergency file editor for when everything’s on fire and you’ve got no server access. **Something isn't working, still figuring out the issue. On hold for now.**.
 * Enable/disable tools as you need them.
 * Clean, simple UI with zero fluff.
@@ -73,6 +74,12 @@ Find **Dev Tools** in the WordPress admin menu. It’s your hub.
   - Pick a previous version from WordPress.org and roll back with one click.
   - Logs rollbacks so you know what you’ve undone. Great for fixing borked updates.
   - ![Plugin Rollback](https://raw.githubusercontent.com/Kryku/wordpress-dev-tools/refs/heads/main/screenshots/dev-tools-plugin-rollback.jpg)
+- **Log Viewer**:
+  - Shows your debug.log file right in the admin.
+  - Toggle WP_DEBUG, WP_DEBUG_LOG, and WP_DEBUG_DISPLAY without touching wp-config.php.
+  - Filter by keywords, clear it with a click, or grab it as a file.
+  - No FTP needed—just pure log-reading and config-tweaking goodness.
+  - ![Log Viewer](https://raw.githubusercontent.com/Kryku/wordpress-dev-tools/refs/heads/main/screenshots/dev-tools-log-viewer.jpg)
 - ~~**Save Our Souls (SOS)**~~ - under revision:
   - Emergency file editor accessible via a direct URL (e.g., `/wp-content/plugins/dev-tools/includes/save-our-soul/`).
   - Enable it in settings, then use it when the site’s down and your client won’t give you FTP or hosting access.
@@ -93,6 +100,7 @@ Find **Dev Tools** in the WordPress admin menu. It’s your hub.
    - **Performance Profiler**: See how fast (or slow) your page loads, spot heavy queries.
    - **Email Tester**: Send a test email, check logs, resend failures, or clear the slate.
    - **REST API Tester**: Fire off a GET to `wp/v2/posts` or POST to create a post, check the response.
+   - **Log Viewer**: Flip debug switches, filter for "error" to find the culprit, clear the slate, or download the log for later.
    - **SOS**: Enable it in settings first, then hit the direct URL when disaster strikes—no admin login needed, just basic auth creds (`admin`/`ohf*k` by default, change ‘em!).
 
 ## Example Scenarios
@@ -113,6 +121,7 @@ add_shortcode('test_shortcode', function() {
 echo do_shortcode('[test_shortcode]');
 ```
 - **REST API Tester**:  
+
 Send to fetch your user data.
 ``` 
 GET wp/v2/users/me
