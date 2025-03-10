@@ -3,7 +3,7 @@
 Plugin Name: Dev Tools
 Description: Developer toolkit
 Version: 1.7
-Author: V.Krykun
+Author: <a href="https://github.com/Kryku">Vladyslav Krykun</a>
 */
 
 define('DEV_TOOLS_DB_MANAGER', true);
@@ -14,6 +14,7 @@ define('DEV_TOOLS_CRON_SCHEDULER', true);
 define('DEV_TOOLS_PERFORMANCE_PROFILER', true);
 define('DEV_TOOLS_EMAIL_TESTER', true);
 define('DEV_TOOLS_REST_API_TESTER', true);
+define('DEV_TOOLS_PLUGIN_ROLLBACK', true);
 
 $sos_enabled = get_option('dev_tools_sos_enabled', false);
 
@@ -40,6 +41,9 @@ if (DEV_TOOLS_EMAIL_TESTER) {
 }
 if (DEV_TOOLS_REST_API_TESTER) {
     require_once plugin_dir_path(__FILE__) . 'includes/rest-api-tester/rest-api-tester.php';
+}
+if (DEV_TOOLS_PLUGIN_ROLLBACK) {
+    require_once plugin_dir_path(__FILE__) . 'includes/plugin-rollback/plugin-rollback.php';
 }
 if ($sos_enabled) {
     require_once plugin_dir_path(__FILE__) . 'includes/save-our-soul/save-our-soul.php';
@@ -144,6 +148,17 @@ function dev_tools_menu() {
         );
     }
     
+    if (DEV_TOOLS_PLUGIN_ROLLBACK) {
+        add_submenu_page(
+            'dev-tools',
+            'Plugin Rollback',
+            'Plugin Rollback',
+            'manage_options',
+            'dev-tools-rollback',
+            'dev_tools_plugin_rollback_page'
+        );
+    }
+    
     add_submenu_page(
         'dev-tools',
         'SOS Settings',
@@ -187,6 +202,9 @@ function dev_tools_main_page() {
             }
             if (DEV_TOOLS_REST_API_TESTER) {
                 dev_tools_rest_api_tester_card();
+            }
+            if (DEV_TOOLS_PLUGIN_ROLLBACK) {
+                dev_tools_plugin_rollback_card();
             }
             if (get_option('dev_tools_sos_enabled', false)) {
                 dev_tools_sos_card();

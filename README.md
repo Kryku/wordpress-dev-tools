@@ -1,6 +1,6 @@
 # Dev Tools
 ## Description
-A ~~simple~~ WordPress plugin I whipped up to make my developer life less of a headache. It’s packed with handy tools—Database Manager, Server Commands, File Editor, Code Snippet Runner, Cron Scheduler, Performance Profiler, Email Tester, REST API Tester, and an emergency SOS mode—all in one lightweight package. Built for database tweaks, server poking, file editing, code testing, cron wrangling, performance checks, email debugging, and API testing, right from the WordPress admin. Perfect when you’re stuck without server or hosting access. Free, customizable, and won’t bog down your site. Skip the bloated paid stuff!
+A ~~simple~~ WordPress plugin I whipped up to make my developer life less of a headache. It’s packed with handy tools—Database Manager, Server Commands, File Editor, Code Snippet Runner, Cron Scheduler, Performance Profiler, Email Tester, REST API Tester, Plugin Rollback, and an emergency SOS mode—all in one lightweight package. Built for database tweaks, server poking, file editing, code testing, cron wrangling, performance checks, email debugging, API testing, and plugin version rollbacks, right from the WordPress admin. Perfect when you’re stuck without server or hosting access. Free, customizable, and won’t bog down your site. Skip the bloated paid stuff!
 
 
 ![Dev Tools Main](https://raw.githubusercontent.com/Kryku/wordpress-dev-tools/refs/heads/main/screenshots/dev-tools.jpg)
@@ -14,6 +14,7 @@ A ~~simple~~ WordPress plugin I whipped up to make my developer life less of a h
 * **Performance Profiler**: Measure page load time, memory usage, and SQL queries. Pinpoint performance bottlenecks with ease.
 * **Email Tester**: Send test emails via `wp_mail` or POP3 (from "Post via Email" settings). Debug delivery issues and keep logs.
 * **REST API Tester**: Send requests to WordPress REST API (GET, POST, etc.) with headers and body. See responses and debug endpoints.
+* **Plugin Rollback**: Roll back plugin updates to previous versions when the latest one breaks your site. Pulls versions from WordPress.org.
 * ~~**Save Our Souls (SOS)**~~ - under revision: Emergency file editor for when everything’s on fire and you’ve got no server access. **Something isn't working, still figuring out the issue. On hold for now.**.
 * Enable/disable tools as you need them.
 * Clean, simple UI with zero fluff.
@@ -67,6 +68,11 @@ Find **Dev Tools** in the WordPress admin menu. It’s your hub.
   - See response status, headers, body, and execution time. Keeps a history of recent requests.
   - Perfect for debugging custom endpoints or testing API integrations.
   - ![REST API Tester](https://raw.githubusercontent.com/Kryku/wordpress-dev-tools/refs/heads/main/screenshots/dev-tools-rest-api-tester.jpg)
+- **Plugin Rollback**:
+  - Lists all installed plugins with their current versions.
+  - Pick a previous version from WordPress.org and roll back with one click.
+  - Logs rollbacks so you know what you’ve undone. Great for fixing borked updates.
+  - ![Plugin Rollback](https://raw.githubusercontent.com/Kryku/wordpress-dev-tools/refs/heads/main/screenshots/dev-tools-plugin-rollback.jpg)
 - ~~**Save Our Souls (SOS)**~~ - under revision:
   - Emergency file editor accessible via a direct URL (e.g., `/wp-content/plugins/dev-tools/includes/save-our-soul/`).
   - Enable it in settings, then use it when the site’s down and your client won’t give you FTP or hosting access.
