@@ -2,7 +2,7 @@
 /*
 Plugin Name: Dev Tools
 Description: Developer toolkit
-Version: 1.5
+Version: 1.7
 Author: V.Krykun
 */
 
@@ -13,6 +13,7 @@ define('DEV_TOOLS_SNIPPET_RUNNER', true);
 define('DEV_TOOLS_CRON_SCHEDULER', true);
 define('DEV_TOOLS_PERFORMANCE_PROFILER', true);
 define('DEV_TOOLS_EMAIL_TESTER', true);
+define('DEV_TOOLS_REST_API_TESTER', true);
 
 $sos_enabled = get_option('dev_tools_sos_enabled', false);
 
@@ -36,6 +37,9 @@ if (DEV_TOOLS_PERFORMANCE_PROFILER) {
 }
 if (DEV_TOOLS_EMAIL_TESTER) {
     require_once plugin_dir_path(__FILE__) . 'includes/email-tester/email-tester.php';
+}
+if (DEV_TOOLS_REST_API_TESTER) {
+    require_once plugin_dir_path(__FILE__) . 'includes/rest-api-tester/rest-api-tester.php';
 }
 if ($sos_enabled) {
     require_once plugin_dir_path(__FILE__) . 'includes/save-our-soul/save-our-soul.php';
@@ -129,6 +133,17 @@ function dev_tools_menu() {
         );
     }
     
+    if (DEV_TOOLS_REST_API_TESTER) {
+        add_submenu_page(
+            'dev-tools',
+            'REST API Tester',
+            'REST API Tester',
+            'manage_options',
+            'dev-tools-rest-api',
+            'dev_tools_rest_api_tester_page'
+        );
+    }
+    
     add_submenu_page(
         'dev-tools',
         'SOS Settings',
@@ -169,6 +184,9 @@ function dev_tools_main_page() {
             }
             if (DEV_TOOLS_EMAIL_TESTER) {
                 dev_tools_email_card();
+            }
+            if (DEV_TOOLS_REST_API_TESTER) {
+                dev_tools_rest_api_tester_card();
             }
             if (get_option('dev_tools_sos_enabled', false)) {
                 dev_tools_sos_card();

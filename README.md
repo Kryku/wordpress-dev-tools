@@ -1,6 +1,6 @@
 # Dev Tools
 ## Description
-A ~~simple~~ WordPress plugin I whipped up to make my developer life less of a headache. It’s packed with handy tools—Database Manager, Server Commands, File Editor, Code Snippet Runner, Cron Scheduler, Performance Profiler, Email Tester, and an emergency SOS mode—all in one lightweight package. Built for database tweaks, server poking, file editing, code testing, cron wrangling, performance checks, and email debugging, right from the WordPress admin. Perfect when you’re stuck without server or hosting access. Free, customizable, and won’t bog down your site. Skip the bloated paid stuff!
+A ~~simple~~ WordPress plugin I whipped up to make my developer life less of a headache. It’s packed with handy tools—Database Manager, Server Commands, File Editor, Code Snippet Runner, Cron Scheduler, Performance Profiler, Email Tester, REST API Tester, and an emergency SOS mode—all in one lightweight package. Built for database tweaks, server poking, file editing, code testing, cron wrangling, performance checks, email debugging, and API testing, right from the WordPress admin. Perfect when you’re stuck without server or hosting access. Free, customizable, and won’t bog down your site. Skip the bloated paid stuff!
 
 
 ![Dev Tools Main](https://raw.githubusercontent.com/Kryku/wordpress-dev-tools/refs/heads/main/screenshots/dev-tools.jpg)
@@ -13,7 +13,8 @@ A ~~simple~~ WordPress plugin I whipped up to make my developer life less of a h
 * **Cron Scheduler**: View, run, or tweak WordPress cron jobs. Fix stuck schedules or test hooks on the fly.
 * **Performance Profiler**: Measure page load time, memory usage, and SQL queries. Pinpoint performance bottlenecks with ease.
 * **Email Tester**: Send test emails via `wp_mail` or POP3 (from "Post via Email" settings). Debug delivery issues and keep logs.
-* **Save Our Souls (SOS)**: Emergency file editor for when everything’s on fire and you’ve got no server access.
+* **REST API Tester**: Send requests to WordPress REST API (GET, POST, etc.) with headers and body. See responses and debug endpoints.
+* ~~**Save Our Souls (SOS)**~~ - under revision: Emergency file editor for when everything’s on fire and you’ve got no server access. **Something isn't working, still figuring out the issue. On hold for now.**.
 * Enable/disable tools as you need them.
 * Clean, simple UI with zero fluff.
 * Lightweight and tweak-friendly.
@@ -60,7 +61,13 @@ Find **Dev Tools** in the WordPress admin menu. It’s your hub.
   - Logs all attempts with status, method, and errors—clear logs or resend selected ones.
   - Debug SMTP or POP3 issues without extra plugins.
   - ![Email Tester](https://raw.githubusercontent.com/Kryku/wordpress-dev-tools/refs/heads/main/screenshots/dev-tools-email-tester.jpg)
-- **Save Our Souls (SOS)**:
+- **REST API Tester**:
+  - Send GET, POST, PUT, DELETE requests to WordPress REST API endpoints.
+  - Add custom headers (e.g., `Authorization`) and body (e.g., JSON).
+  - See response status, headers, body, and execution time. Keeps a history of recent requests.
+  - Perfect for debugging custom endpoints or testing API integrations.
+  - ![REST API Tester](https://raw.githubusercontent.com/Kryku/wordpress-dev-tools/refs/heads/main/screenshots/dev-tools-rest-api-tester.jpg)
+- ~~**Save Our Souls (SOS)**~~ - under revision:
   - Emergency file editor accessible via a direct URL (e.g., `/wp-content/plugins/dev-tools/includes/save-our-soul/`).
   - Enable it in settings, then use it when the site’s down and your client won’t give you FTP or hosting access.
   - Same file tree and CodeMirror goodness, but works outside the admin if you’ve borked something bad—like a typo in `functions.php`.
@@ -79,6 +86,7 @@ Find **Dev Tools** in the WordPress admin menu. It’s your hub.
    - **Cron Scheduler**: Check cron jobs, hit "Run Now," or schedule a new one like `my_custom_hook`.
    - **Performance Profiler**: See how fast (or slow) your page loads, spot heavy queries.
    - **Email Tester**: Send a test email, check logs, resend failures, or clear the slate.
+   - **REST API Tester**: Fire off a GET to `wp/v2/posts` or POST to create a post, check the response.
    - **SOS**: Enable it in settings first, then hit the direct URL when disaster strikes—no admin login needed, just basic auth creds (`admin`/`ohf*k` by default, change ‘em!).
 
 ## Example Scenarios
@@ -98,6 +106,14 @@ add_shortcode('test_shortcode', function() {
 });
 echo do_shortcode('[test_shortcode]');
 ```
-
+- **REST API Tester**:  
+Send to fetch your user data.
+``` 
+GET wp/v2/users/me
+```
+Send  with `{"title": "Test", "content": "Hi"}` to create a post.
+```
+POST wp/v2/posts
+```
 ## Bottom Line
-This is my personal Swiss knife for WordPress tinkering. Database Manager is solid for SQL, Server Commands works if your host isn’t strict, File Editor’s tree is a lifesaver, Code Snippet Runner lets you test code without breaking stuff, Cron Scheduler keeps your tasks in check, and Performance Profiler helps you figure out why your site’s dragging. SOS is there when it all hits the fan. No fluff, just tools that get the job done.
+This is my personal Swiss knife for WordPress tinkering. Database Manager is solid for SQL, Server Commands works if your host isn’t strict, File Editor’s tree is a lifesaver, Code Snippet Runner lets you test code without breaking stuff, Cron Scheduler keeps your tasks in check, Performance Profiler helps you figure out why your site’s dragging, Email Tester saves you from email headaches, and REST API Tester makes endpoint debugging a breeze. SOS is there when it all hits the fan (once I fix it). No fluff, just tools that get the job done.
