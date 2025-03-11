@@ -16,7 +16,7 @@ A ~~simple~~ WordPress plugin I whipped up to make my developer life less of a h
 * **REST API Tester**: Send requests to WordPress REST API (GET, POST, etc.) with headers and body. See responses and debug endpoints.
 * **Plugin Rollback**: Roll back plugin updates to previous versions when the latest one breaks your site. Pulls versions from WordPress.org.
 * **Log Viewer**: Peek at your debug.log, tweak WP_DEBUG settings, filter, search, wipe it clean, or download it—all without leaving the admin.
-* ~~**Save Our Souls (SOS)**~~ - under revision: Emergency file editor for when everything’s on fire and you’ve got no server access. **Something isn't working, still figuring out the issue. On hold for now.**.
+* **Save Our Souls (SOS)**: Holy crap, this thing finally works—use it! Emergency file editor that kicks in even when your site's totally screwed. Standalone version lives at `/wp-content/plugins/dev-tools/includes/save-our-soul/` (login: admin, password: ohf*k—change that!).
 * Enable/disable tools as you need them.
 * Clean, simple UI with zero fluff.
 * Lightweight and tweak-friendly.
@@ -80,13 +80,14 @@ Find **Dev Tools** in the WordPress admin menu. It’s your hub.
   - Filter by keywords, clear it with a click, or grab it as a file.
   - No FTP needed—just pure log-reading and config-tweaking goodness.
   - ![Log Viewer](https://raw.githubusercontent.com/Kryku/wordpress-dev-tools/refs/heads/main/screenshots/dev-tools-log-viewer.jpg)
-- ~~**Save Our Souls (SOS)**~~ - under revision:
+- **Save Our Souls (SOS)**:
   - Emergency file editor accessible via a direct URL (e.g., `/wp-content/plugins/dev-tools/includes/save-our-soul/`).
   - Enable it in settings, then use it when the site’s down and your client won’t give you FTP or hosting access.
   - Same file tree and CodeMirror goodness, but works outside the admin if you’ve borked something bad—like a typo in `functions.php`.
   - If you’re *rly* crazy, you can even tweak `wp-config.php`… but, uh, one shot at that before you’re in deeper trouble!
   - ![SOS Editor](https://raw.githubusercontent.com/Kryku/wordpress-dev-tools/refs/heads/main/screenshots/dev-tools-sos-1.jpg)
   - ![SOS Editor](https://raw.githubusercontent.com/Kryku/wordpress-dev-tools/refs/heads/main/screenshots/dev-tools-sos-2.jpg)
+  - ![SOS Editor](https://raw.githubusercontent.com/Kryku/wordpress-dev-tools/refs/heads/main/screenshots/dev-tools-sos-3.jpg)
 
 ## Usage
 1. Activate the plugin.
@@ -101,7 +102,7 @@ Find **Dev Tools** in the WordPress admin menu. It’s your hub.
    - **Email Tester**: Send a test email, check logs, resend failures, or clear the slate.
    - **REST API Tester**: Fire off a GET to `wp/v2/posts` or POST to create a post, check the response.
    - **Log Viewer**: Flip debug switches, filter for "error" to find the culprit, clear the slate, or download the log for later.
-   - **SOS**: Enable it in settings first, then hit the direct URL when disaster strikes—no admin login needed, just basic auth creds (`admin`/`ohf*k` by default, change ‘em!).
+   - **SOS**: Hit the direct URL when disaster strikes—no admin login needed, just basic auth creds (`admin`/`ohf*k` by default, change them!).
 
 ## Example Scenarios
 - **Database Manager**:  

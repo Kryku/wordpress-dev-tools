@@ -130,7 +130,7 @@ function build_file_tree($dir) {
         $path = $dir . DIRECTORY_SEPARATOR . $file;
         if (is_dir($path)) {
             $output .= '<li class="folder">' . esc_html($file);
-            $output .= build_file_tree($path); // Рекурсія для підпапок
+            $output .= build_file_tree($path);
             $output .= '</li>';
         } else {
             $output .= '<li class="file"><a href="' . admin_url('admin.php?page=dev-tools-file-editor&file=' . urlencode($path)) . '">' . esc_html($file) . '</a></li>';
@@ -143,8 +143,8 @@ function build_file_tree($dir) {
 add_action('admin_enqueue_scripts', function($hook) {
     if (isset($_GET['page']) && $_GET['page'] === 'dev-tools-file-editor') {
         wp_enqueue_script('jquery');
-        wp_enqueue_script('codemirror', plugin_dir_url(__FILE__) . '../../assets/codemirror.min.js', [], '6.65.7', true);
-        wp_enqueue_style('codemirror-css', plugin_dir_url(__FILE__) . '../../assets/codemirror.min.css');
+        wp_enqueue_script('codemirror', plugin_dir_url(__FILE__) . '../../assets/codemirror/codemirror.min.js', [], '6.65.7', true);
+        wp_enqueue_style('codemirror-css', plugin_dir_url(__FILE__) . '../../assets/codemirror/codemirror.min.css');
         wp_enqueue_style('file-editor-style', plugin_dir_url(__FILE__) . 'style.css');
     }
 });

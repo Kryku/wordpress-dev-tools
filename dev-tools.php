@@ -2,7 +2,7 @@
 /*
 Plugin Name: Dev Tools
 Description: Developer toolkit
-Version: 1.9
+Version: 1.9.1
 Author: <a href="https://github.com/Kryku">Vladyslav Krykun</a>
 */
 
@@ -234,29 +234,12 @@ function dev_tools_main_page() {
 }
 
 function dev_tools_sos_settings_page() {
-    if (!current_user_can('manage_options')) {
-        return;
-    }
-
-    if (isset($_POST['sos_submit']) && check_admin_referer('sos_settings_action')) {
-        $enabled = isset($_POST['sos_enabled']) ? 1 : 0;
-        update_option('dev_tools_sos_enabled', $enabled);
-        echo '<div class="updated"><p>Settings saved!</p></div>';
-    }
-
-    $sos_enabled = get_option('dev_tools_sos_enabled', false);
     ?>
     <div class="wrap" style="max-width: 700px; background-color: #ffffff; margin: 0 auto; border-radius: 5px; padding: 20px; box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px; margin-top: 30px;">
-        <h1 style="margin-bottom: 10px">SOS Settings</h1>
-        <form method="post">
-            <?php wp_nonce_field('sos_settings_action'); ?>
-            <label>
-                <input type="checkbox" name="sos_enabled" <?php checked($sos_enabled, 1); ?>>
-                Enable Save Our Souls (Emergency File Editor)
-            </label>
-            <p><em>Note: When enabled, you can also access it directly at <br><br><code><?php echo plugin_dir_url(__FILE__) . 'includes/save-our-soul/'; ?></code></em></p>
-            <input type="submit" name="sos_submit" class="tool-card-btn" value="Save Changes">
-        </form>
+        <h1 style="margin-bottom: 10px">SOS Manager</h1>
+        <div>
+            <p><em>Note: You can access the manager directly at<br><br><code><?php echo plugin_dir_url(__FILE__) . 'includes/save-our-soul/'; ?></code></em></p>
+        </div>
     </div>
     <?php
 }

